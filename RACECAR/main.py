@@ -20,9 +20,11 @@ the script.]
 ########################################################################################
 
 import sys
-import numpy as np
 from classification_model import load_model, infer
 from sign_image import crop
+import numpy as np
+import skimage.transform
+
 
 # If this file is nested inside a folder in the labs folder, the relative path should
 # be [1, ../../library] instead.
@@ -55,11 +57,13 @@ def start():
 def update():
 
     image = rc.camera.get_color_image()
-    image = crop(image, 40)
+    image = crop(image, 100)
     if image is None:
         pass
     else:
         rc.display.show_color_image(image)
+
+        image = skimage.transform.resize(image, (32, 32, 3), mode='constant')
 
         image = np.float32(image)
     
